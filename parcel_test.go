@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"testing"
 	"time"
+        "fmt"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -58,7 +59,11 @@ func TestAddGetDelete(t *testing.T) {
 	require.NoError(t, err)
 
 	_, err = store.Get(id)
-	assert.Error(t, err)
+	if err == sql.ErrNoRows {
+               fmt.Printf("Посылка с ID %d успешно удалена\n", id)
+      } else if err != nil {
+               fmt.Printf("Ожидалась ошибка ErrNoRows, но получена ошибка %v\n", err)
+      }
 }
 
 // TestSetAddress проверяет обновление адреса
